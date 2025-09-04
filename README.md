@@ -1,1 +1,1 @@
-# PusulaTalentAcademy
+# PusulaTalentAcademy case answers
