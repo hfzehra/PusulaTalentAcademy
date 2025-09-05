@@ -6,28 +6,38 @@ namespace MaxIncreasingSubarray
     {
         public static string MaxIncreasingSubArrayAsJsonFunc(List<int> numbers)
         {
-            if (numbers == null || numbers.Count == 0)
-                return "[]";
-
-            List<int> maxSub = new List<int>();
-            List<int> currentSub = new List<int> { numbers[0] };
-
-            for (int i = 1; i < numbers.Count; i++)
-            {
-                if (numbers[i] > numbers[i - 1])
-                    currentSub.Add(numbers[i]);
-                else
-                {
-                    if (currentSub.Sum() > maxSub.Sum())
-                        maxSub = new List<int>(currentSub);
-                    currentSub = new List<int> { numbers[i] };
-                }
-            }
-
-            if (currentSub.Sum() > maxSub.Sum())
-                maxSub = currentSub;
-
-            return JsonSerializer.Serialize(maxSub);
+           if (numbers == null || numbers.Count == 0)
+               return "[]";
+        
+           List<int> maxSub = new List<int>();
+           int maxSum = int.MinValue;
+            
+           List<int> currentSub = new List<int> { numbers[0] };
+           int currentSum = numbers[0];
+            
+           for (int i = 1; i < numbers.Count; i++)
+           {
+               if (numbers[i] > numbers[i - 1])
+               {
+                   currentSub.Add(numbers[i]);
+                   currentSum += numbers[i];
+               }
+               else
+               {
+                   if (currentSum > maxSum)
+                   {
+                       maxSum = currentSum;
+                       maxSub = new List<int>(currentSub);
+                   }
+                   currentSub = new List<int> { numbers[i] };
+                   currentSum = numbers[i];
+               }
+           }
+            
+           if (currentSum> maxSum)
+               maxSub = currentSub;
+           
+           return JsonSerializer.Serialize(maxSub);
         }
 
         static void Main(string[] args)
@@ -45,3 +55,4 @@ namespace MaxIncreasingSubarray
         }
     }
 }
+
